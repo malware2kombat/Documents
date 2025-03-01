@@ -30,7 +30,7 @@ def detect(srcdir=ROOT, tgtdir=FACES, train_dir=TRAIN):
         # Draw a rectangle around the faces
         for x1, y1,x2, y2 in rects:
             cv2.rectangle(img, (x1, y1), (x2, y2), (127, 255, 0), 2)
-        cv2.imwrite(newname. img)
+        cv2.imwrite(newname, img)
 
-if __name == "__main__":
+if __name__ == "__main__":
     detect()
