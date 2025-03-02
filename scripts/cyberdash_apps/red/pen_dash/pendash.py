@@ -1,28 +1,11 @@
 # Red Team Dashboard (Pen Dash)
 
-## Project Structure:
-```
-~/Documents/scripts/cyberdash_apps/red/
-├── pen_dash/
-│   └── pendash.py  # Main Dash app
-├── redplts/
-│   ├── redALLplts.py  # All plotting functions
-│   ├── rednetworkgraph.py
-│   ├── redscatterplot.py
-│   ├── redboxplot.py
-│   ├── redradarchart.py
-│   ├── redstepplot.py
-```
-
-## 🔹 `pendash.py` (Dash App Template)
-```python
 import dash
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 import base64
 import io
-from redplts.redALLplts import plot_scatter, plot_network, plot_box
-
+from redplts.redALLplts import redALLplts
 # Convert Matplotlib Figure to Base64
 def fig_to_base64(fig):
     buf = io.BytesIO()
@@ -34,29 +17,22 @@ def fig_to_base64(fig):
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 
 # Generate Figures
-scatter_img = fig_to_base64(plot_scatter())
-network_img = fig_to_base64(plot_network())
-box_img = fig_to_base64(plot_box())
+plots = redALLplts()
+images = {name: fig_to_base64(fig) for name, 
+                fig in plots.items()}
 
 # App Layout
 app.layout = dbc.Container([
     html.H1("Pen Dash - Red Team Dashboard", className="text-center text-danger mb-4"),
     
-    html.H3("Scatter Plot"),
-    html.Img(src=scatter_img, style={"width": "100%"}),
-    
-    html.H3("Network Graph"),
-    html.Img(src=network_img, style={"width": "100%"}),
-    
-    html.H3("Box Plot"),
-    html.Img(src=box_img, style={"width": "100%"})
+# Dynamically generate sections for each plot
+    *[
+        html.Div([
+            html.H3(name.replace("_", " ").title()),
+            html.Img(src=img, style={"width": "100%"})
+        ], className="mb-4") for name, img in images.items()
+    ]
 ])
 
 if __name__ == "__main__":
     app.run_server(host="127.0.0.1", port=8050, debug=True)
-```
-
-## 🔹 Next Steps
-- Modify `redALLplts.py` to include `plot_scatter()`, `plot_network()`, and `plot_box()`.
-- Ensure each function returns a `matplotlib.figure.Figure` object.
-- Extend `pendash.py` to include additional plots dynamically.
