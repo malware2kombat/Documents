@@ -1,11 +1,12 @@
-# Red Team Dashboard (Pen Dash)
+'''Red Team Dashboard (Pen Dash)'''
 
 import dash
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 import base64
 import io
-from redplts.redALLplts import redALLplts
+from redALLplts import redALLplts
+
 # Convert Matplotlib Figure to Base64
 def fig_to_base64(fig):
     buf = io.BytesIO()
