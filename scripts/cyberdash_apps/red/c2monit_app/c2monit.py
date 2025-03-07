@@ -1,3 +1,9 @@
+'''
+to view in browser use:
+"127.0.0.1:5000/dashboard"
+"127.0.0.0:5000/logs"
+'''
+
 from flask import Flask, request, jsonify
 import dash
 from dash import dcc
